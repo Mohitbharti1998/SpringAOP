@@ -2,9 +2,7 @@ package org.spring.aspect;
 
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.spring.model.Circle;
 
 @Aspect
@@ -23,9 +21,14 @@ public class LoggingAspect {
 //        System.out.println("second advice executed");
 //    }
 
-    @Before("args(name)")
-    public void stringArgumentMethods(String name){
-        System.out.println("A method that takes String arguments has been called. The value is :" + name);
+    @AfterReturning(pointcut = "args(name)",returning = "returnString")
+    public void stringArgumentMethods(String name,String returnString){
+        System.out.println("A method that takes String arguments has been called. The value is :" + name + "The output value is : "+returnString);
+    }
+
+    @AfterThrowing("args(name)")
+    public void exceptionAdvice(String name){
+        System.out.println("An exception has been thrown");
     }
 
     @Pointcut("execution(* get*())")
