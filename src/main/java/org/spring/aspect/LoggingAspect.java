@@ -2,6 +2,7 @@ package org.spring.aspect;
 
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.spring.model.Circle;
 
@@ -22,7 +23,7 @@ public class LoggingAspect {
 //    }
 
     @AfterReturning(pointcut = "args(name)",returning = "returnString")
-    public void stringArgumentMethods(String name,String returnString){
+    public void stringArgumentMethods(String name,Object returnString){
         System.out.println("A method that takes String arguments has been called. The value is :" + name + "The output value is : "+returnString);
     }
 
@@ -37,5 +38,28 @@ public class LoggingAspect {
 //    @Pointcut("execution(* * org.spring.model.Circle.*(..))") --> All methods of circle class
     @Pointcut("within(org.spring.model.Circle)")
     public void allCircleMethods(){}
+
+//    @Pointcut("execution(* org.spring.service.*Service.*(..)")
+
+
+
+//    @Around("allGetters()")
+    @Around("@annotation(org.spring.aspect.Loggable)")
+    public Object myAroundAdvice(ProceedingJoinPoint proceedingJoinPoint){
+
+        Object returnValue = null;
+
+        try {
+            System.out.println("Before Advice");
+            returnValue = proceedingJoinPoint.proceed();
+            System.out.println("After returning");
+        } catch (Throwable e) {
+            System.out.println("After Throwing");
+        }
+
+        System.out.println("After finally");
+
+        return returnValue;
+    }
 
 }

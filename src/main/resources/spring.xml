@@ -22,6 +22,16 @@ http://www.springframework.org/schema/context
 
     <bean name="shapeService" class="org.spring.service.ShapeService" autowire="byName"/>
 
-    <bean name="loggingAspect" class="org.spring.aspect.LoggingAspect"/>
+<!--    <bean name="loggingAspect" class="org.spring.aspect.LoggingAspect"/>-->
+
+
+<!--    using xml implement aspect-->
+    <bean name="loggingAspect" class="org.spring.aspect.LoggingAspect2"/>
+    <aop:config>
+        <aop:aspect id="loggingAspect" ref="loggingAspect">
+            <aop:pointcut id="allGetters" expression="execution(* get*())"/>
+            <aop:around pointcut-ref="allGetters" method="myAroundAdvice"/>
+        </aop:aspect>
+    </aop:config>
 
 </beans>
