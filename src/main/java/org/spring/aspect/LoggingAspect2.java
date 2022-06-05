@@ -24,4 +24,8 @@ public class LoggingAspect2 {
 
         return returnValue;
     }
+
+    public void loggingAdvice(){
+        System.out.println("Logging Advice");
+    }
 }
